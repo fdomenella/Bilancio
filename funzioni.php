@@ -20,5 +20,8 @@ function timestamp_to_data($timestamp){
     return $data;
 }
 
-
+function importo_pulisci($importo){
+    
+     return str_replace(",",".", $importo);
+}
 ?>

@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
 
     $data = data_to_timestamp($data);
 
-    $importo = str_replace(",",".", $importo);
+    $importo =importo_pulisci($importo);
     $query="INSERT INTO uscite VALUES (null,$data,'$importo',$id_cat,'$nota')";
     $result = $db->query($query);
     if($result){
