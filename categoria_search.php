@@ -16,7 +16,7 @@ $result=$db->query($query);
 
 
 //loop dei dati
-while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
     $row_array[] = array();
 $row_array['value'] = $row['nome'];
 $row_array['id']=$row['id'];

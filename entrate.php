@@ -7,7 +7,7 @@ include_once("funzioni.php");
 
 
 if (isset($_POST['submit'])) {
-    $id_cat=$_POST['id_cat'];
+
     $importo =$_POST['importo'];
     $data=$_POST['data'];
     $nota=$_POST['nota'];
@@ -15,10 +15,10 @@ if (isset($_POST['submit'])) {
     $data = data_to_timestamp($data);
 
     $importo =importo_pulisci($importo);
-    $query="INSERT INTO uscite VALUES (null,$data,'$importo',$id_cat,'$nota')";
+    $query="INSERT INTO entrate VALUES (null,$data,'$importo','$nota')";
     $result = $db->query($query);
     
-    header("Location: spesa.php");
+    header("Location: entrate.php");
 }
 else {
 	
@@ -38,7 +38,7 @@ else {
     <meta name="description" content="">
     <meta name="author" content="Francesco Domenella">
 
-    <title>Bilancio - Inserisci Spesa</title>
+    <title>Bilancio - Inserisci Entrata</title>
 <script src="./vendor/jquery/jquery.min.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -178,7 +178,7 @@ else {
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Inserisci Spesa</h1>
+                    <h1 class="page-header">Inserisci Entrata</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -188,17 +188,14 @@ else {
                     
                         <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Aggiungi spesa
+                            <i class="fa fa-bell fa-fw"></i> Aggiungi Entrata
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="list-group">
                                 <form action="" method="POST">
                                     <input  type="hidden" name="id_cat" id="id_cat" value="" size="30">
-                                    <div class="form-group">
-                                            <label>Categoria</label>
-                                            <input size="30" class="form-control" placeholder="Seleziona categoria" name="categoria_nome" id="birds">
-                                    </div>
+                                    
                                    
                                      <div class="form-group">
                                             <label>Data</label>
