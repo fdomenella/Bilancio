@@ -82,7 +82,15 @@ include_once("funzioni.php");
                                    <i class="fa fa-tasks fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26-11-2017</div>
+                                    <div class="huge">
+                                    <?php
+                                    $query=" SELECT data FROM uscite ORDER BY data DESC LIMIT 1";
+                                $result = $db->query($query);
+                                $row= mysqli_fetch_array($result);
+                                echo timestamp_to_data($row['data']);
+                                    
+                                    ?>
+                                    </div>
                                     <div>Ultimo scontrino</div>
                                 </div>
                             </div>
@@ -284,54 +292,30 @@ include_once("funzioni.php");
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small"><em>4 minutes ago</em>
-                                    </span>
+                                
+                                <?php
+                                
+                                $query=" SELECT uscite.*, c.nome FROM uscite JOIN categoria c ON c.id = uscite.id_categoria ORDER BY data DESC LIMIT 10";
+                                $result = $db->query($query);
+                                while ($row= mysqli_fetch_array($result)){
+                                    
+                                    echo '<a href="#" class="list-group-item">';
+                                    echo '<i class="fa fa-money fa-fw"></i> '. $row['nome'];
+                                    echo ' <span class="pull-right text-muted small"><em>'. timestamp_to_data($row['data']) .'</em>';
+                                    echo ' </span>';
+                                }
+                                
+                                ?>
+                                
+                                    
+                                   
+                                   
                                 </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small"><em>12 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small"><em>27 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small"><em>43 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small"><em>11:32 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-bolt fa-fw"></i> Server Crashed!
-                                    <span class="pull-right text-muted small"><em>11:13 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-warning fa-fw"></i> Server Not Responding
-                                    <span class="pull-right text-muted small"><em>10:57 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-shopping-cart fa-fw"></i> New Order Placed
-                                    <span class="pull-right text-muted small"><em>9:49 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-money fa-fw"></i> Payment Received
-                                    <span class="pull-right text-muted small"><em>Yesterday</em>
-                                    </span>
-                                </a>
+                                
+                                
                             </div>
                             <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Alerts</a>
+                            <a href="#" class="btn btn-default btn-block">Vedi tutti gli scontrini</a>
                         </div>
                         <!-- /.panel-body -->
                     </div>

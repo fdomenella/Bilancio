@@ -58,6 +58,32 @@ function bdg_check_bdg_set($anno, $id_cat){
     
 }
 
+function report_totale_speso_categoria($id_cat,$anno=""){
+     if($anno==""){
+        $anno= current_year();
+    }
+    
+    $inizio_anno = data_to_timestamp("1-1-$anno");
+    $fine_anno = data_to_timestamp("31-12-$anno");
+    
+    
+    $db = new db(DB_USER,DB_PASSWORD,DB_NAME,DB_HOST);
+    $query ="SELECT sum(importo) as totale FROM uscite where id_categoria = $id_cat AND data between $inizio_anno and $fine_anno ";
+    $result = $db->query($query);
+    
+    $row = mysqli_fetch_array($result);
+    return $row['totale'];
+    
+}
+
+function report_totale_speso_categoria_media($id_cat,$anno=""){
+    
+    
+    //devo calcolare il numero dei mesi che ho inserito
+    // da tutti i dati inseriti in uscite prendo il time stamp estraggo il mese, lo metto in un array e tolgo i duplucati, conto l'array ho i mesi inseriti
+    
+}
+
 /**
  * calcola il totale entrate dell'anno, se anno è null allora calcola l'anno corrente
  * @param type $anno
