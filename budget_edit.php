@@ -15,14 +15,25 @@ if(isset($_GET['submit'])){
     
     
     if($_GET['azione']=="add"){
+      
         // qui vado di insert
+        $query ="INSERT INTO budget VALUES($anno,$id_cat,$importo)";
+        $result = $db->query($query);
         
-    }else{
-        //qui vado di update
         
-    }
-    header("Location : budget_edit.php");
 }
+    }
+    if($_GET['azione']=="mod"){
+      
+        //qui vado di update
+      
+        $query ="UPDATE budget SET importo = $importo WHERE anno=$anno and id_cat=$id_cat";
+        
+        $result = $db->queryInsert($query);
+        
+       
+    }
+    
 
 
 
@@ -114,24 +125,17 @@ $(document).ready(function() {
                 <?php
                 $anno = date("Y");
              
-                $query = "SELECT * FROM budget RIGHT JOIN categoria ON categoria.id = budget.id_cat where budget.anno = $anno ";
-                echo $query;
-                $result = $db->query($query);
-                if($result){
-                    
-                    while($row=mysql_fetch_array($result)){
-                        echo '<input type="hidden" name="azione" value="mod">';
-                        
-                    }
-                    
-                }else{
-                    $query = "SELECT * FROM budget RIGHT JOIN categoria ON categoria.id = budget.id_cat  ";
-                    echo "<br>" .  $query;
-                     $result = $db->query($query);
-                     if($result){
-                    while($row=mysql_fetch_array($result)){
+              
+               
+               
+                $query = "SELECT * FROM budget RIGHT JOIN categoria ON categoria.id = budget.id_cat  ";
+                
+                 $result = $db->query($query);
+              
+                while($row=mysqli_fetch_array($result)){
+                    if($row['anno']==$anno OR is_null($row['anno'])){
                         echo '<form action="" method="GET">';
-                        echo '<input type="hidden" name="azione" value="add">';
+
                         echo "<tr>";
                         echo "<td>";
                         echo $anno;
@@ -142,18 +146,25 @@ $(document).ready(function() {
                          echo '<input type="hidden" name="id_cat" value="'.$row['id'].'">';
                         echo "</td>";
                         echo "<td>";
-                        echo '<input type="text" name="importo" size="6" id="" value="">';
+                        echo '<input type="text" name="importo" size="6" id="" value="'.$row['importo'].'">';
                         echo "</td>";
-                        
+
                         echo "<td>";
-                        
-                        echo '<input type ="submit" name="submit" value="Aggiorna" />';
+                        if (bdg_check_bdg_set($anno, $row['id'])){
+                            echo '<input type ="submit" name="submit" value="Aggiorna"/>';
+                            echo '<input type="hidden" name="azione" value="mod">';
+
+                        }else{
+                            echo '<input type ="submit" name="submit" value="Aggiungi" />';
+                             echo '<input type="hidden" name="azione" value="add">';
+                        }
+
                         echo "</td>";
                         echo "</tr>";
                         echo '</form>';
                     }
-                    }
                 }
+                
                 
                 ?>
                 

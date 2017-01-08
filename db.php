@@ -10,13 +10,19 @@ class db {
 
 
 	function __construct($dbuser, $dbpassword, $dbname, $dbhost){
-		$this->objDb = mysql_connect($dbhost,$dbuser,$dbpassword);
-		$this->selectDb($dbname);
-		
+        	$this->objDb = new mysqli($dbhost,$dbuser,$dbpassword,$dbname);
+		//$this->objDb = mysqli_connect($dbhost,$dbuser,$dbpassword,$dbname);
+		//$this->selectDb($dbname);
+		if ($this->objDb->connect_error) {
+                    die('Errore di connessione (' . $this->objDb->connect_errno . ') '
+                    . $this->objDb->connect_error);
+                } else {
+                  //  echo 'Connesso. ' . $this->objDb->host_info . "\n";
+                }
 	}
 
 	function selectDb($dbname){
-		mysql_select_db($dbname,$this->objDb);
+		mysqli_select_db($dbname,$this->objDb);
 	}
 	/**
 	 * Esegue una query
@@ -25,14 +31,15 @@ class db {
 	 * @return se_va_a_buon_fine(righe>0)_ritorna_$result_altrimenti_false
 	 */
 	function query($query){
-		$result = mysql_query($query) or die ("Query fallita : "
-			."<li>errorno=".mysql_errno()
-			."<li>error=".mysql_error()
+                $result = $this->objDb->query($query) or die ("Query fallita : "
+			."<li>errorno=".$this->objDb->errno
+			."<li>error=".$this->objDb->error
 			."<li>query=".$query
 			);
 
 		if ($result) {
-			if (mysql_num_rows($result)>0) {
+                  
+			if (mysqli_num_rows($result)>0) {
 
 			    return $result;
 			}
@@ -52,16 +59,16 @@ class db {
 	 * @return bool
 	 */
 	function queryInsert($query){
-		$result = mysql_query($query) or die ("Query fallita : "
-			."<li>errorno=".mysql_errno()
-			."<li>error=".mysql_error()
+		$result = $this->objDb->query($query) or die ("Query fallita : "
+			."<li>errorno=".$this->objDb->errno
+			."<li>error=".$this->objDb->error
 			."<li>query=".$query
 			);
-
-		if (mysql_affected_rows()==0) {
-			//maybe an error
-			return false;
-		}
+                if(!$result)
+                    if (mysqli_affected_rows()==0) {
+                            //maybe an error
+                            return false;
+                    }
 
 		return true;
 	}
@@ -69,12 +76,11 @@ class db {
 
 
 	function queryDelete($query){
-		$result = mysql_query($query) or die ("Query fallita : "
-			."<li>errorno=".mysql_errno()
-			."<li>error=".mysql_error()
+		$result = $this->objDb->query($query) or die ("Query fallita : "
+			."<li>errorno=".$this->objDb->errno
+			."<li>error=".$this->objDb->error
 			."<li>query=".$query
 			);
-
 		return true;
 	}
 
