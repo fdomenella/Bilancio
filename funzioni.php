@@ -27,6 +27,11 @@ function current_year(){
     return $anno;
 }
 
+function current_month(){
+    $mese = date('m');
+    return $mese;
+}
+
 function importo_pulisci($importo){
     
      return str_replace(",",".", $importo);
@@ -69,6 +74,28 @@ function report_totale_speso_categoria($id_cat,$anno=""){
     
     $db = new db(DB_USER,DB_PASSWORD,DB_NAME,DB_HOST);
     $query ="SELECT sum(importo) as totale FROM uscite where id_categoria = $id_cat AND data between $inizio_anno and $fine_anno ";
+    $result = $db->query($query);
+    
+    $row = mysqli_fetch_array($result);
+    return $row['totale'];
+    
+}
+
+
+
+function report_totale_speso_categoria_mese($id_cat,$mese, $anno=""){
+     if($anno==""){
+        $anno= current_year();
+    }
+    
+  
+    $firstday = data_to_timestamp("1-$mese-$anno");
+    $dayinmonth = cal_days_in_month(CAL_GREGORIAN, $mese, $anno); 
+
+    $lastday = data_to_timestamp("$dayinmonth-$mese-$anno");
+    
+    $db = new db(DB_USER,DB_PASSWORD,DB_NAME,DB_HOST);
+    $query ="SELECT sum(importo) as totale FROM uscite where id_categoria = $id_cat AND data between $firstday and $lastday";
     $result = $db->query($query);
     
     $row = mysqli_fetch_array($result);
