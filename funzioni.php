@@ -176,6 +176,9 @@ function layouts_navigation(){
                                 <li>
                                     <a href="report_scontrini.php">Report Scontrini</a>
                                 </li>
+                                <li>
+                                    <a href="report_entrate.php">Report Entrate</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
