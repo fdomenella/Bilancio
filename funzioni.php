@@ -173,6 +173,9 @@ function layouts_navigation(){
                                 <li>
                                     <a href="report_spesa.php">Report Spesa</a>
                                 </li>
+                                <li>
+                                    <a href="report_scontrini.php">Report Scontrini</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

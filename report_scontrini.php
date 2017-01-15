@@ -56,7 +56,7 @@ $monthName = $dateObj->format('F'); // March
   <script type="text/javascript">
   function doSomething(selectedIndex){
     
-        window.location.replace("report_spesa.php?month="+selectedIndex);
+        window.location.replace("report_scontrini.php?month="+selectedIndex);
       
   }
   </script>
@@ -115,19 +115,18 @@ $monthName = $dateObj->format('F'); // March
                  	<table  class="table table-striped table-bordered table-hover" id="example" >
         <thead>
             <tr>
-                <th>Categoria</th>
-               
-                <th>Preventivato </th>
-                <th>consuntivo</th>
+                 <th>Data</th>
+               <th>Categoria</th>
+                <th>Speso </th>
                 
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th>Categoria</th>
+                <th>Data</th>
+               <th>Categoria</th>
+                <th>Speso </th>
                
-                <th>Preventivato </th>
-                <th>consuntivo</th>
             </tr>
         </tfoot>
         <tbody>
@@ -152,56 +151,38 @@ $monthName = $dateObj->format('F'); // March
            
                     
                  
+             $firstday = data_to_timestamp("1-$month-$anno");
+    $dayinmonth = cal_days_in_month(CAL_GREGORIAN, $month, $anno); 
+
+    $lastday = data_to_timestamp("$dayinmonth-$month-$anno");
             
-            
-                $query = "SELECT * FROM budget RIGHT JOIN categoria ON categoria.id = budget.id_cat";
+                $query = "SELECT * FROM uscite RIGHT JOIN categoria ON categoria.id = uscite.id_categoria WHERE data BETWEEN $firstday AND $lastday ORDER BY data ASC";
                 
                  $result = $db->query($query);
-                $preventivato_totale="";
-                $consuntivato_totale="";
+                
                 while($row=mysqli_fetch_array($result)){
-                    if($row['anno']==$anno OR is_null($row['anno'])){
-                        $budget_mese="";
-                        $spesa_mese="";
+                 
+                        
                         echo '<tr>';
                         echo '<td>';
+                        echo timestamp_to_data($row['data']);
+                        echo '</td>';
+                        echo '<td>';
                         echo $row['nome'];
+                       
                         echo '</td>';
                         echo '<td>';
-                        $budget_mese = round($row['importo'] /12);
-                         echo  number_format($budget_mese,2) ." €";
-                        echo '</td>';
-                        echo '<td>';
-                        $spesa_mese = report_totale_speso_categoria_mese($row['id_cat'],  $month, $anno);
-                        if($spesa_mese > $budget_mese){
-                            echo '<span style="color: red;"><strong>';
-                        }
-                        echo  number_format($spesa_mese,2) ." €";
-                        if($spesa_mese > $budget_mese){
-                            echo '</strong></span>';
-                        }
+                        
+                        echo  number_format($row['importo'],2) ." €";
+                       
                         echo '</td>';
                       
                         echo '</tr>';
-                        $preventivato_totale+= $budget_mese;
-                        $consuntivato_totale+= $spesa_mese;
-                    }
+                        
+                    
                 }
                 
-                         echo '<tr>';
-                        echo '<td>';
-                        echo "<strong>TOTALE</strong>";
-                        echo '</td>';
-                        echo '<td>';
-                        echo '<strong>';
-                        echo number_format($preventivato_totale,2) ." €";
-                        echo '</strong>';
-                        echo '</td>';
-                        echo '<td>';
-                        echo '<strong>';
-                        echo  number_format($consuntivato_totale,2) ." €";
-                        echo '</strong>';
-                        echo '</td>';
+                        
                         
                 
                 ?>
