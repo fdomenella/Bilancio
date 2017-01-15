@@ -115,7 +115,8 @@ $anno = date("Y");
                 $query = "SELECT * FROM budget RIGHT JOIN categoria ON categoria.id = budget.id_cat  ";
                 
                  $result = $db->query($query);
-              
+               $totale_anno="";
+               $totale_mese="";
                 while($row=mysqli_fetch_array($result)){
                     if($row['anno']==$anno OR is_null($row['anno'])){
                         echo '<tr>';
@@ -123,21 +124,43 @@ $anno = date("Y");
                         echo $row['nome'];
                         echo '</td>';
                         echo '<td>';
-                        echo $row['importo'];
+                        echo number_format($row['importo'],2);
                         echo '</td>';
                         echo '<td>';
-                        echo report_totale_speso_categoria($row['id_cat'], $anno);
+                        echo number_format(report_totale_speso_categoria($row['id_cat'], $anno),2);
                         echo '</td>';
                         echo '<td>';
-                        echo round($row['importo'] /12);
+                        echo number_format(round($row['importo'] /12),2);
                         echo '</td>';
                         echo '<td>';
                         
                         echo '</td>';
                         echo '</tr>';
+                        $totale_anno+=$row['importo'];
+                        $totale_mese+=round($row['importo'] /12);
                     }
                 }
-                
+                 echo '<tr>';
+                        echo '<td>';
+                        echo "TOTALE";
+                        echo '</td>';
+                        echo '<td>';
+                        echo "<strong>";
+                        echo number_format($totale_anno,2);
+                        echo "</strong>";
+                        echo '</td>';
+                        echo '<td>';
+                        echo "";
+                        echo '</td>';
+                        echo '<td>';
+                        echo "<strong>";
+                        echo number_format($totale_mese,2);
+                        echo "</strong>";
+                        echo '</td>';
+                        echo '<td>';
+                        
+                        echo '</td>';
+                        echo '</tr>';
                 
                 ?>
                 
