@@ -141,6 +141,9 @@ else {
 
     });
   $(document).ready(function() {
+      $('#id_cat').on('change', function() {
+                alert("ciao ");
+            });
      $('input[type="submit"]').prop('disabled', true);
      $('input[type="text"]').keyup(function() {
         if($(this).val() != '') {
@@ -148,7 +151,13 @@ else {
         }
      });
  });
+ 
   </script>
+  <script type="text/javascript">
+        $(document).ready(function() {
+            
+        });
+        </script>
 </head>
 
 <body>
