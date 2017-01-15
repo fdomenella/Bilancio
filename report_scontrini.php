@@ -176,6 +176,11 @@ $monthName = $dateObj->format('F'); // March
                         echo  number_format($row['importo'],2) ." €";
                        
                         echo '</td>';
+                         echo '<td>';
+                        
+                        echo  $row['nota'];
+                       
+                        echo '</td>';
                       
                         echo '</tr>';
                         
