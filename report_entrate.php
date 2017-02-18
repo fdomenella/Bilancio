@@ -142,7 +142,7 @@ $monthName = $dateObj->format('F'); // March
         $result = $db->query($query);
         if($result){
             while($row= mysqli_fetch_array($result)){
-
+                   echo "<tr>";
                 echo "<td>";
                 echo timestamp_to_data($row['data']);
                 echo "</td>";
@@ -154,6 +154,7 @@ $monthName = $dateObj->format('F'); // March
                 echo "<td>";
                 echo $row['nota'];
                 echo "</td>";
+                echo "</tr>";
             }
         } 
         
